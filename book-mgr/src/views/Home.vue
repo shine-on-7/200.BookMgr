@@ -1,16 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { Collection } from '@element-plus/icons-vue'
 import { useUserStore } from '../tools/store'
-import { menuItems } from '../tools/config'
+import { menuItems } from '../config/menu'
+import { appConfig } from '../config/app'
 
-const appTitle = "图书管理系统"
-const topTitle = "欢迎使用" + appTitle
-
-// 模拟菜单配置 (实际项目中可从后端获取或单独配置文件)
-// 关键变化：增加了 path 字段，直接对应路由路径
-// const menuItems = menuItems
+const appTitle = appConfig.title
+const topTitle = "欢迎使用" + appConfig.title
+const brandIcon = appConfig.logo
+const footer = appConfig.footer
+const showHelpButton = appConfig.showHelpButton
+const onHelpClick = appConfig.onHelpClick
 
 const router = useRouter()
 const route = useRoute()
@@ -23,8 +23,13 @@ const currentRouteIndex = computed(() => {
 
 // 点击帮助按钮
 const handleHelpClick = () => {
-  // 这里可以添加帮助逻辑，比如打开帮助弹窗
-  console.log('点击了帮助按钮')
+  // 如果配置了回调函数，优先使用回调
+  if (onHelpClick && typeof onHelpClick === 'function') {
+    onHelpClick(router)
+  } else {
+    // 默认行为：打印日志
+    console.log('点击了帮助按钮')
+  }
 }
 
 const handleLogout = () => {
@@ -70,7 +75,7 @@ const handleMenuSelect = (indexPath) => {
       <!-- 侧边栏 -->
       <el-aside width="220px" class="aside">
         <div class="brand">
-          <el-icon class="brand-icon"><Collection /></el-icon>
+          <el-icon class="brand-icon"><component :is="brandIcon" /></el-icon>
           <span class="brand-name">{{ appTitle }}</span>
         </div>
         
@@ -119,7 +124,7 @@ const handleMenuSelect = (indexPath) => {
         <el-header class="header">
           <div class="logo">{{ topTitle }}</div>
           <div class="header-actions">
-            <el-button type="default" link class="white-link" @click="handleHelpClick">帮助</el-button>
+            <el-button v-if="showHelpButton" type="default" link class="white-link" @click="handleHelpClick">帮助</el-button>
             <el-button type="default" link class="white-link" @click="handleLogout">退出</el-button>
           </div>
         </el-header>
@@ -134,7 +139,7 @@ const handleMenuSelect = (indexPath) => {
           </router-view>
         </el-main>
 
-        <el-footer class="footer">© 2026 Project Manage System</el-footer>
+        <el-footer class="footer">{{ footer }}</el-footer>
       </el-container>
     </el-container>
   </div>
