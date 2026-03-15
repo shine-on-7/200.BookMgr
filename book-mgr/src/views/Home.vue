@@ -1,34 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '../tools/store'
 import { Collection } from '@element-plus/icons-vue'
+import { useUserStore } from '../tools/store'
+import { menuItems } from '../tools/config'
+
+const appTitle = "图书管理系统"
+const topTitle = "欢迎使用" + appTitle
 
 // 模拟菜单配置 (实际项目中可从后端获取或单独配置文件)
 // 关键变化：增加了 path 字段，直接对应路由路径
-const menuItems = [
-  { index: '1', label: '首页', icon: 'House', path: '/home' },
-  {
-    index: '2',
-    label: '图书管理',
-    icon: 'Folder',
-    children: [
-      { index: '2-1', label: '图书列表', icon: 'List', path: '/book' },
-      { index: '2-2', label: '创建图书', icon: 'Plus', path: '/book/add' },
-      // 详情页通常不需要在菜单显示
-    ]
-  },
-  {
-    index: '3',
-    label: '用户管理',
-    icon: 'Calendar',
-    children: [
-      { index: '3-1', label: '用户列表', icon: 'List', path: '/user' },
-      { index: '3-2', label: '创建用户', icon: 'Plus', path: '/user/add' },
-    ]
-  },
-  // ... 其他菜单项结构相同，只需配置 path 即可，无需引入组件
-]
+// const menuItems = menuItems
 
 const router = useRouter()
 const route = useRoute()
@@ -89,7 +71,7 @@ const handleMenuSelect = (indexPath) => {
       <el-aside width="220px" class="aside">
         <div class="brand">
           <el-icon class="brand-icon"><Collection /></el-icon>
-          <span class="brand-name">项目信息管理</span>
+          <span class="brand-name">{{ appTitle }}</span>
         </div>
         
         <el-scrollbar class="menu-scroll">
@@ -135,7 +117,7 @@ const handleMenuSelect = (indexPath) => {
       <el-container>
         <!-- 头部 -->
         <el-header class="header">
-          <div class="logo">项目管理系统</div>
+          <div class="logo">{{ topTitle }}</div>
           <div class="header-actions">
             <el-button type="default" link class="white-link" @click="handleHelpClick">帮助</el-button>
             <el-button type="default" link class="white-link" @click="handleLogout">退出</el-button>
