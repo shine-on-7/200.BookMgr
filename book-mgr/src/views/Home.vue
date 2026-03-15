@@ -16,6 +16,9 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 
+// 默认展开的菜单 - 空数组表示默认全部折叠
+const defaultOpeneds = []
+
 // 自动根据当前路由高亮菜单
 const currentRouteIndex = computed(() => {
   return route.path
@@ -39,34 +42,10 @@ const handleLogout = () => {
 
 // 点击菜单跳转路由
 const handleMenuSelect = (indexPath) => {
-  // 如果菜单项配置了 path，直接跳转
-  // 这里简单处理：假设 indexPath 就是 path，或者你需要遍历 menuItems 找到对应的 path
-  // 更优雅的做法是在 menuItems 里直接存 path，点击时直接 router.push(path)
-  
-  // 简单演示：查找对应的 path
   let targetPath = indexPath
-  
-  // 实际逻辑建议：在 menuItems 定义时就把 path 绑死，点击直接跳
-  // 由于 el-menu 的 select 返回的是 index，我们需要一个映射关系
-  // 这里为了演示简化，假设你的 index 和 path 有某种对应，或者直接在 template 里用 @click 替换 @select
-  
-  // 【最佳实践修正】：直接在 template 的 el-menu-item 上绑定 @click="router.push(item.path)"
-  // 这样就不需要 handleSelect 里的复杂逻辑了。
-  // 但为了兼容 el-menu 的样式，我们保留 select 事件，但在数据源里确保 index 就是 path 或者做映射
 }
 
-// 修正：更简单的菜单点击处理
-// 建议在模板中直接改：@click="router.push(item.path)" 
-// 这里保留原逻辑作为备用，但推荐在模板中直接绑定 path
 </script>
-
-<!-- 优化后的模板部分：直接绑定 path -->
-<!-- 
-  注意：上面的 script 中 handleMenuSelect 其实可以简化。
-  最推荐的做法是将模板中的 @select 改为在 item 上直接 @click 
-  但为了保持 el-menu 的激活状态逻辑，我们保持 @select，
-  并在数据源中让 index 等于 path，或者做一个简单的映射函数。
--->
 
 
 <template>
@@ -82,12 +61,12 @@ const handleMenuSelect = (indexPath) => {
         <el-scrollbar class="menu-scroll">
           <el-menu
             :default-active="currentRouteIndex"
+            :default-openeds="defaultOpeneds"
             @select="handleMenuSelect"
-            unique-opened
             background-color="var(--sidebar-bg)"
             router
           >
-            <!-- 循环渲染菜单，不再硬编码每个 item -->
+            <!-- 循环渲染菜单 -->
             <template v-for="item in menuItems" :key="item.index">
               <!-- 无子菜单 -->
               <el-menu-item 
@@ -129,14 +108,8 @@ const handleMenuSelect = (indexPath) => {
           </div>
         </el-header>
 
-        <!-- 核心修改：使用 router-view 替代所有的 v-if -->
-        <!-- 具体的页面组件会根据 URL 自动加载到这里 -->
         <el-main class="main">
-          <router-view v-slot="{ Component }">
-            <transition name="fade" mode="out-in">
-              <component :is="Component" />
-            </transition>
-          </router-view>
+          <router-view />
         </el-main>
 
         <el-footer class="footer">{{ footer }}</el-footer>
