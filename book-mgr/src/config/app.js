@@ -12,6 +12,8 @@ export const appConfig = {
       type: 'warning'
     }).then(() => {
       router.push('/help')
+    }).catch(() => {
+      // 取消帮助
     })
   }
 }

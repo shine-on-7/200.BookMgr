@@ -22,6 +22,7 @@ const routes = [
       { path: 'book/edit/:id', name: 'BookEdit', component: () => import('../views/Books/BookEdit.vue') },
       { path: 'user', name: 'User', component: () => import('../views/Users/UserList.vue') },
       { path: 'user/add', name: 'UserAdd', component: () => import('../views/Users/UserAdd.vue') },
+      { path: 'user/edit/:id', name: 'UserEdit', component: () => import('../views/Users/UserEdit.vue') },
     ]
   },
   // 兜底重定向：未匹配的路径跳登录
