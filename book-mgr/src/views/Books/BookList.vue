@@ -21,3 +21,9 @@ const handleEditClick = (id) => {
     <el-button type="primary" @click="handleEditClick(2)">编辑图书</el-button>
   </div>
 </template>
+
+
+
+<style scoped>
+
+</style>

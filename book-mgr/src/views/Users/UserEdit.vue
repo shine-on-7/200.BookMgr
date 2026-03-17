@@ -54,16 +54,21 @@ const handleSubmit = async () => {
         ElMessage.error('请填写完整信息！')
         return
     }
+}
 
+const handleReset = () => {
+    formRef.value?.resetFields()
 }
 
 </script>
+
+
 
 <template>
     <div class="user-edit">
         <h1>UserEdit</h1>
         <div class="form-container">
-            <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" size="large" class="center-form">
+            <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" size="large">
                 <h2>编辑用户</h2>
                 <el-form-item label="用户ID" prop="id">
                     <el-input v-model="form.id" placeholder="请输入用户ID"></el-input>
@@ -103,15 +108,16 @@ const handleSubmit = async () => {
                 </el-form-item>
 
                 <el-form-item label="角色" prop="role">
-                    <el-radio-group v-model="form.role">
-                        <el-radio value="admin">管理员</el-radio>
-                        <el-radio value="user">普通用户</el-radio>
-                    </el-radio-group>
+                    <el-select v-model="form.role" placeholder="请选择角色">
+                        <el-option label="管理员" value="admin"></el-option>
+                        <el-option label="普通用户" value="user"></el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item>
                     <el-button type="primary" @click="handleSubmit">提交</el-button>
                     <el-button type="warning" @click="router.back()">取消</el-button>
+                    <el-button type="info" @click="handleReset">重置</el-button>
                 </el-form-item>
 
             </el-form>
@@ -146,7 +152,7 @@ const handleSubmit = async () => {
 
         .el-button {
             margin-top: 30px;
-            width: 45%;
+            width: 30%;
         }
     }
 }

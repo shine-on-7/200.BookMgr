@@ -23,6 +23,7 @@ const routes = [
       { path: 'user', name: 'User', component: () => import('../views/Users/UserList.vue') },
       { path: 'user/add', name: 'UserAdd', component: () => import('../views/Users/UserAdd.vue') },
       { path: 'user/edit/:id', name: 'UserEdit', component: () => import('../views/Users/UserEdit.vue') },
+      { path: 'analysis', name: 'Analysis', component: () => import('../views/Analysis/Analysis.vue') },
     ]
   },
   // 兜底重定向：未匹配的路径跳登录

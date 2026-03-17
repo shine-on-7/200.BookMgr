@@ -9,6 +9,7 @@ const appTitle = appConfig.title
 const topTitle = "欢迎使用" + appConfig.title
 const brandIcon = appConfig.logo
 const footer = appConfig.footer
+const showFooter = appConfig.showFooter
 const showHelpButton = appConfig.showHelpButton
 const onHelpClick = appConfig.onHelpClick
 
@@ -112,7 +113,7 @@ const handleMenuSelect = (indexPath) => {
           <router-view />
         </el-main>
 
-        <el-footer class="footer">{{ footer }}</el-footer>
+        <el-footer v-if="showFooter" class="footer">{{ footer }}</el-footer>
       </el-container>
     </el-container>
   </div>
